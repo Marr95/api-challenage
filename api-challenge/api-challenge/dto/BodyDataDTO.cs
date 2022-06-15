@@ -2,7 +2,7 @@
 {
     public class BodyDataDTO
     {
-        public int heartBeat { get; set; }
+        public int temperature { get; set; }
         public double heat { get; set; }
     }
 }

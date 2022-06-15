@@ -1,5 +1,4 @@
 ﻿using api_challenge.dto;
-using api_challenge.models;
 using MySqlConnector;
 
 namespace api_challenge.dal
@@ -21,9 +20,9 @@ namespace api_challenge.dal
                 connection.Open();
                 MySqlCommand command = new MySqlCommand();
                 command.Connection = connection;
-                command.CommandText = "INSERT INTO bodydata (heartBeat, heat) VALUES (@heartBeat, @heat)";
+                command.CommandText = "INSERT INTO bodydata (temperature, heat) VALUES (@temperature, @heat)";
                 command.Prepare();
-                command.Parameters.AddWithValue("@heartBeat", bodyDataDTO.heartBeat);
+                command.Parameters.AddWithValue("@temperature", bodyDataDTO.temperature);
                 command.Parameters.AddWithValue("@heat", bodyDataDTO.heat);
                 command.ExecuteNonQuery();
                 return true;
@@ -35,37 +34,6 @@ namespace api_challenge.dal
             finally
             {
                 if(connection != null)
-                {
-                    connection.Close();
-                }
-            }
-        }
-
-        public List<BodyData> GetBodyDatas()
-        {
-            try
-            {
-                connection.Open();
-                MySqlCommand command = new MySqlCommand();
-                command.Connection = connection;
-                command.CommandText = "SELECT * FROM bodydata";
-                List<BodyData> bodyDatas = new List<BodyData>();
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        bodyDatas.Add(new BodyData() { id = Convert.ToInt32(reader["id"]), heartBeat = Convert.ToInt32(reader["heartBeat"]), heat = Convert.ToDouble(reader["heat"]) });
-                    }
-                }
-                return bodyDatas;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-            finally
-            {
-                if (connection != null)
                 {
                     connection.Close();
                 }
